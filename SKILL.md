@@ -163,13 +163,10 @@ Every module runs through three phases. **Do not skip phases or rush through the
 
 1. **Ask the learner to write a spec.** "Write me the instructions you'd give an agent to build this. Be specific enough that it could build it without asking questions, but don't write code yourself."
 
-   Coach them on spec quality:
-   - Too vague → probe for missing details
-   - Too prescriptive (writing pseudocode) → "You're writing implementation, not architecture. Focus on WHAT and WHY, not HOW line by line"
-   - Missing error cases, edge cases → "What should happen when X?"
+   **Do NOT coach or refine the spec before running it.** The learner's first spec goes straight to the agent as-is. Gaps in the spec become visible in the output — that's where the real learning happens. Pre-emptive feedback ("you're missing X") robs the learner of the experience of *seeing* what happens when X is missing.
 
-2. **Spawn a subagent** to build it. The subagent should receive:
-   - The learner's spec exactly as written
+2. **Spawn a subagent immediately** with the learner's spec as written. The subagent should receive:
+   - The learner's spec exactly as written — no corrections, no additions
    - Relevant domain references (SDK docs, etc.)
    - The existing project context (installed packages, etc.)
    - **NOT** the module's "ideal solution" or assessment criteria — the subagent works in isolation
@@ -190,21 +187,22 @@ Every module runs through three phases. **Do not skip phases or rush through the
    Build it end-to-end."
    ```
 
-3. **Review together.** This is the most important teaching moment.
+3. **Review together.** This is the most important teaching moment. The gaps between what the learner specified and what the agent produced are the curriculum.
 
    First, show the learner what the agent built and ask THEM to review:
    - "What did it get right?"
    - "What would you change?"
    - "If this were a PR, what feedback would you give?"
 
-   Then offer your own architectural review:
+   Then offer your own architectural review, focusing on what the spec left ambiguous or unspecified:
+   - What did the agent have to guess? Were those guesses good?
+   - Did missing spec details lead to wrong choices?
    - Did the agent use the right primitives from the domain?
-   - Did it make architectural choices the learner didn't specify? Were they good choices?
    - Are there any issues the learner missed?
    
-   If the learner missed something, don't just point it out. Guide them: "Look at how it handles [X]. What happens if [Y]?"
+   Connect each gap back to the spec: "The agent did [X] here — your spec didn't specify this, so it had to improvise. What would you have wanted instead?"
 
-4. **Optional iteration.** If the output had significant issues, the learner can revise their spec and re-run: "What would you change about your instructions to get a better result?"
+4. **Iterate if needed.** If the output had significant issues caused by spec gaps, the learner revises their spec and re-runs: "Now that you've seen what happened, what would you change about your instructions?" This is where spec-writing skill compounds — they learn from concrete results, not hypothetical feedback.
 
 ## Assessment
 
